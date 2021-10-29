@@ -16,7 +16,7 @@ void main(){
 	
 	division1 = fork();
 	
-	char sendAB [35] = "Soy A escribiendo para B";
+	
 	
 	if(division1 == -1){
 		printf("Ha habido un error");
@@ -35,7 +35,7 @@ void main(){
 			char sendBC [35];			
 			close(fd1[1]);
 			read(fd1[0],sendBC, sizeof(sendBC));
-			printf("\n %s",sendBC);
+			printf("\n %s \n",sendBC);
 			
 			char sendCB [35] = "Soy C enviando un mensaje a B";
 			close(fd2[0]);
@@ -51,7 +51,7 @@ void main(){
 			
 			char sendAB [35];
 			read(fd2[0], sendAB, sizeof(sendAB));
-			printf("\n %s",sendAB);
+			printf("\n %s \n",sendAB);
 			
 			close(fd1[0]);
 			
@@ -60,7 +60,7 @@ void main(){
 			
 			char sendCB [35];
 			read(fd2[0],sendCB, sizeof(sendCB));
-			printf("\n %s",sendCB);
+			printf("\n %s \n",sendCB);
 			
 			char sendBA [35] = "Soy B enviando un mensaje a A";
 			write(fd1[1],sendBA, sizeof(sendBA));
@@ -73,16 +73,18 @@ void main(){
 		
 	}else{
 		
-		char sendBA [35] ;
-		printf("Estamos en A");
+		
+		char sendAB [35] = "Soy A enviando un mensaje a B";
+		printf("\n Estamos en A");
 		close(fd2[0]);
 		write(fd2[1],sendAB,sizeof(sendAB));
 		
 		wait(NULL);
 		
+		char sendBA [35] ;
 		close(fd1[1]);
 		read(fd1[0],sendBA,sizeof(sendBA));
-		printf("\n %s",sendBA);
+		printf("\n %s \n",sendBA);
 			
 	}
 	
