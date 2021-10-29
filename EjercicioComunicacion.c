@@ -73,5 +73,8 @@ void main(){
 			
 	}
 	
+	wait(NULL);
+	
+	
 }
 
