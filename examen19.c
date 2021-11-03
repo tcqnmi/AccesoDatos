@@ -5,10 +5,8 @@
 
 void main(){
 
-	int fda [2];
 	int fdb [2];
 	
-	pipe(fda);
 	pipe(fdb);
 	
 	pid_t proca;
@@ -28,18 +26,23 @@ void main(){
 		printf("Proceso B. Mi pid es: %d, el pid de mi padre es: %d \n",procb,proca);
 		
 		int i;
-		int limit = rand()%(0-5+1)+5;
+		int limit = rand()%11;
 		for (i=0; i<limit; i++){
 			
 			printf("Proceso B. Iteración %d \n",i);
 			
-			char sendBtoA [15];
-			sprintf (sendBtoA, "%d", limit);
-			close(fdb[0]);
-			write(fdb[1], sendBtoA, sizeof(sendBtoA));
+			
 			
 		}
+		char sendBtoA [15];
+		sprintf (sendBtoA, "%d", limit);
+		close(fdb[0]);
+		write(fdb[1], sendBtoA, sizeof(sendBtoA));
+		char comando [50];
+		sprintf(comando," echo %d >> numAleatorio.txt", limit );
 		
+		
+		system(comando);
 	}else{
 	
 		proca = getpid();
