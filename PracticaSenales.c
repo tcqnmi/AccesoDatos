@@ -5,11 +5,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
 int cont = 0;
+
 void sighandler(int); 
 void sighandler2(int);
 
-void main(){
+int main(){
 	
 	
 	pid_t hijo;
@@ -21,6 +23,7 @@ void main(){
 	}else if(hijo ==0){
 	
 		int i = 0;
+		signal(SIGINT, sighandler2);
 		for(i ; i<10; i++){
 			
 			kill(getppid(),SIGUSR1);
@@ -30,13 +33,12 @@ void main(){
 	
 	}else{
 	
-		char mensaje [10];
+		signal(SIGUSR1, sighandler);
+		signal(SIGINT, sighandler2);
 		while(1){
 		
-			signal(SIGUSR1, sighandler);
-			signal(SIGINT,sighandler2);
-
-		}	
+		}
+		
 	}
 	
 }
@@ -45,10 +47,12 @@ void sighandler(int signum){
 }
 void sighandler2(int signum){
 	cont++;
-	if(cont==1){
-		kill(getpid(),SIGKILL);
+	if(cont>=2){
+		exit(0);
 	}else{
+		
 		printf("Vuelva a seleccionar ctrl+C para salir");
+		
 	}
 	
 	
