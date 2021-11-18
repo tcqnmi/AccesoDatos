@@ -11,7 +11,7 @@ int cont = 0;
 void sighandler(int); 
 void sighandler2(int);
 
-int main(){
+void main(){
 	
 	
 	pid_t hijo;
@@ -46,14 +46,16 @@ void sighandler(int signum){
 	printf("Recibidida señal %d \n",signum);
 }
 void sighandler2(int signum){
+	
 	cont++;
 	if(cont>=2){
 		exit(0);
 	}else{
-		
 		printf("Vuelva a seleccionar ctrl+C para salir");
 		
 	}
+	//La otra opcion era esperar dentro de esta funcion a otro sigint
+	//que llame a una nueva funcion que si finalice el proceso
 	
 	
 	
