@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -20,10 +21,15 @@ void main(){
 	
 	if(hijoB1 == -1){
 		printf("Error");
+		
 	}else if(hijoB1 == 0){
 	
+		
 		signal(SIGUSR1,envioB1);
 		printf("Soy hijo B1");
+		while(1){
+		
+		}
 		
 	}else{
 	
@@ -31,28 +37,34 @@ void main(){
 		
 		if(hijoB2 == -1){
 			printf("Error");
+			
 		}else if(hijoB2 == 0){
-				
+		
+			printf("Soy hijo B2");		
 			signal(SIGUSR2, envioB2);
-			printf("Soy hijo B2");			
+			while(1){
+		
+			}
+					
 		
 		}else{
 		
 			signal(SIGUSR2, reciboB1);
 			signal(SIGUSR1, reciboB2);
 		
-			while(1){	
-			
+				
+			while(1){
+				sleep(3);
+				
 				kill(hijoB1, SIGUSR1);
 				printf("Envío señal a B1 \n");
 				
 				kill(hijoB2, SIGUSR2);
 				printf("Envío señal a B2 \n");
 				
-				sleep(1);
 				
-			}	
-		
+							
+			}		
 		}		
 	
 	}
@@ -60,11 +72,13 @@ void main(){
 }
 void envioB1(int signum){
 
+	printf("EnvioB1");
 	kill(getppid(), SIGUSR2);
 
 }
 void envioB2(int signum){
 
+	printf("EnvioB2");
 	kill(getppid(), SIGUSR1);
 
 }
