@@ -8,9 +8,10 @@
 
 void main(int argc, char** argv){
 
-	pid_t factoria;
-	long long int pid_ll = strtoll(argv[1], NULL, 0);
-	factoria = (pid_t) pid_ll;
+	int factoria;
+	
+	factoria = atoi (argv[1]);
+	
 	int opc; 
 	int opcionSeleccionada = 1;
 
@@ -56,8 +57,5 @@ void main(int argc, char** argv){
 	}while(opc>-1);
 	
 	
-
-
-
 
 }

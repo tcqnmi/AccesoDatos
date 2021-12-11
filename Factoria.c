@@ -7,10 +7,15 @@
 #include <fcntl.h>
 #include <signal.h>
 
-void handler(int);
+void encender(int);
+void aumentar(int);
+void disminuir(int);
+void apagar(int);
 void modif1(int);
 
-int cont =0;
+int cont =1;
+int encendido = 0;
+int espera = 3;
 
 void main(){
 
@@ -19,16 +24,21 @@ void main(){
 
 	signal(SIGUSR1, modif1);
 	
-	signal(SIGUSR2, handler);
+	signal(SIGUSR2, encender);
 	
 	printf("%d\n",getpid());
 	
 	while(1){
+	
+		while(encendido == 1){
+			printf("Se ha producido un producto");
+			sleep(espera);
+		}
 		
 	}
 }
 
-void modif1(int signal){
+void modif1(int signum){
 
 	if(cont<4){
 		cont = cont+1;
@@ -36,44 +46,63 @@ void modif1(int signal){
 		cont =1;
 	}
 	
-}
-void handler(int signal){
-	int encender = 0;
-	int espera = 0;
-
 	if(cont ==1){
 	
-		printf("Se ha arrancado la factoría");
-		encender =1;
-		espera = 3;
-		
+		signal(SIGUSR2, encender);
 	
 	}else if(cont ==2){
 	
-		printf("Aumentando la velocidad de producción en 1 segundo");
-	
-		if(espera>1){
-		
-			espera = espera-1;
-		}
-	
+		signal(SIGUSR2, aumentar);
 	
 	}else if(cont ==3){
-		
-		printf("Disminuyendo la velocidad de producción en 1 segundo");
-		espera = espera+1;
+	
+		signal(SIGUSR2, disminuir);
 	
 	}else if(cont ==4){
-	
-		printf("Se ha detenido la factoría");
-		encender = -1;
-	
+		signal(SIGUSR2, apagar);
 	}
 	
-	while(encender > 0){
-			printf("Se ha producido un producto");
-			sleep(espera);
-	}
+}
+void encender (int signum){
 	
 
+	if(encendido ==1){
+	
+		printf("La fábrica ya está encendida");
+	
+	}else{
+	
+		printf("Se ha arrancado la factoría");
+		encendido =1;
+		espera = 3;
+	
+	}
+}		
+	
+void aumentar(int signum){
+
+	printf("Aumentando la velocidad de producción en 1 segundo");
+	
+	if(espera>1){
+		
+		espera = espera-1;
+	}
+
+}	
+void disminuir(int signum){
+
+	printf("Disminuyendo la velocidad de producción en 1 segundo");
+	espera = espera+1;
+
+}	
+		
+		
+void apagar(int signum){
+
+	printf("Se ha detenido la factoría");
+	encendido = -1;
+
 }
+	
+		
+	
